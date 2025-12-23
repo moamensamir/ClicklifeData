@@ -392,11 +392,16 @@
     }
 
     function openAddPhoneModal(customerId){
-      // build select of customers (simple)
+      // build select of customers
+      const sel = el('select',{id:'selectCustomer'});
+      state.customers.forEach(c=> sel.appendChild(el('option',{value:c.id, html:c.name})));
+      if(customerId) sel.value = customerId;
+      else if(state.customers[0]) sel.value = state.customers[0].id;
+
       const content = el('div',{}, [
         el('h3',{html:'Add New Number'}),
         el('label',{}, 'اختر العميل'),
-        (()=>{ const sel = el('select',{id:'selectCustomer'}); state.customers.forEach(c=> sel.appendChild(el('option',{value:c.id, html:c.name}))); sel.value = customerId || (state.customers[0]?state.customers[0].id:''); return sel })(),
+        sel,
         el('label',{}, 'New Phone Number'),
         el('input',{type:'tel', id:'inputNewPhone'}),
         el('div',{class:'row'}, [
