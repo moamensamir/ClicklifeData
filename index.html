@@ -3,39 +3,39 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Clicklife — دفتر العملاء (بسيط واحترافي)</title>
+  <title>Clicklife — دفتر العملاء (بسيط ووضوح أعلى)</title>
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Fonts: Cairo only for clarity -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /*
-      تبسيط الواجهة + إزالة اللوحة الجانبية (الجزء الذي طلبت حذفه)
-      - الخلفية: ضع bg.jpg في نفس المجلد لو أردت
-      - التصميم مبسط: هيرو، بحث، قائمة مبسطة، أزرار واضحة
-    */
     :root{
       --bg-dark: #071226;
-      --glass: rgba(255,255,255,0.06);
-      --muted: #b8c2d6;
+      --muted: #c7d2e6;
       --accent: #f59e0b;  /* ذهبي / برتقالي */
       --accent-2: #0ea56a;
-      --card: rgba(255,255,255,0.02);
+      --card-bg: rgba(2,8,23,0.66); /* أقوى خلفية للبطاقات لتباين أعلى */
+      --row-bg: rgba(255,255,255,0.02);
+      --input-bg: rgba(255,255,255,0.04);
       --radius: 12px;
-      font-family: 'Cairo', 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      color-scheme: dark;
     }
 
-    html,body{height:100%;margin:0;background:var(--bg-dark);color:#eef2f8}
+    html,body{height:100%;margin:0;background:var(--bg-dark);color:#ffffff}
     body{
+      /* استخدم الصورة الخلفية باسم bg.jpg في نفس المجلد */
       background-image: url('bg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
+    /* شفافية مظللة للخلفية لضمان تباين النص */
     .overlay {
-      position:fixed; inset:0; background: linear-gradient(180deg, rgba(7,18,38,0.66), rgba(7,18,38,0.76));
-      backdrop-filter: blur(2px);
+      position:fixed; inset:0; background: linear-gradient(180deg, rgba(7,18,38,0.72), rgba(7,18,38,0.72));
       z-index:-1;
     }
 
@@ -43,22 +43,22 @@
     header{display:flex;gap:12px;align-items:center;justify-content:space-between}
     .brand{display:flex;gap:12px;align-items:center}
     .logo{
-      width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#6f8cff,#0f62fe);
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#6f8cff,#0f62fe);
       display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px;box-shadow:0 8px 30px rgba(15,98,254,0.12)
     }
-    h1{font-size:20px;margin:0}
+    h1{font-size:20px;margin:0;color:#fff}
     .desc{color:var(--muted);font-size:13px;margin-top:4px}
 
+    /* hero */
     .hero{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.4);
-      display:flex;flex-direction:column;gap:14px;
-      min-height:260px;
+      background: var(--card-bg);
+      border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);
+      display:flex;flex-direction:column;gap:14px;min-height:240px;
     }
 
     .hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .hero-text{max-width:62%}
-    .hero-text h2{margin:0;font-size:22px}
+    .hero-text{max-width:68%}
+    .hero-text h2{margin:0;font-size:22px;color:#fff}
     .hero-text p{margin:6px 0 0 0;color:var(--muted);font-size:14px}
 
     .big-actions{display:flex;gap:10px;align-items:center}
@@ -66,42 +66,41 @@
       padding:10px 14px;border-radius:12px;border:0;font-weight:700;cursor:pointer;
       background:var(--accent); color:#071226; box-shadow:0 8px 20px rgba(245,158,11,0.12);
     }
-    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(255,255,255,0.08)}
-    .btn.secondary{background:#ffffff10;color:#fff;border:1px solid rgba(255,255,255,0.04)}
+    .btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.12)}
+    .btn.secondary{background:#0b1726;color:#fff;border:1px solid rgba(255,255,255,0.06)}
     .btn.small{padding:8px 10px;border-radius:10px;font-weight:600}
 
-    .search{
-      display:flex;gap:8px;align-items:center;margin-top:6px;
-    }
+    .search{display:flex;gap:8px;align-items:center;margin-top:6px}
     input[type="search"]{
       width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);
-      background: rgba(0,0,0,0.25); color:#fff; font-size:15px; outline:none;
+      background: var(--input-bg); color:#fff; font-size:15px; outline:none;
     }
-    input[type="search"]::placeholder{ color:#c7d2e0 }
+    input[type="search"]::placeholder{ color:#c7d2e6 }
 
-    .panel{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 30px rgba(2,6,23,0.4);border:1px solid rgba(255,255,255,0.02)}
+    .panel{background: transparent;border-radius:12px;padding:12px}
     .list{margin-top:10px;display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto;padding-right:6px}
     .row{
-      display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      border:1px solid rgba(255,255,255,0.02)
+      display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04)
     }
     .row .left{display:flex;align-items:center;gap:12px}
-    .avatar{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);display:flex;align-items:center;justify-content:center;color:#071226;font-weight:800}
-    .name{font-weight:700}
+    .avatar{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#ffb84d,#c56a00);display:flex;align-items:center;justify-content:center;color:#071226;font-weight:800}
+    .name{font-weight:700;color:#fff}
     .meta{color:var(--muted);font-size:13px}
 
     .note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
 
-    .modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:1000}
-    .modal{background:#071226;padding:18px;border-radius:12px;width:420px;border:1px solid rgba(255,255,255,0.03)}
+    /* modal */
+    .modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,0.66);display:flex;align-items:center;justify-content:center;z-index:1000}
+    .modal{background:rgba(8,12,20,0.98);padding:18px;border-radius:12px;width:460px;border:1px solid rgba(255,255,255,0.04);color:#fff}
     label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
-    input, select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;margin-bottom:8px}
+    input, select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;margin-bottom:8px}
 
     @media(max-width:640px){
       .hero-text{max-width:100%}
       .container{padding:12px}
-      .hero{min-height:200px}
+      .hero{min-height:180px}
     }
   </style>
 </head>
@@ -114,7 +113,7 @@
         <div class="logo">CL</div>
         <div>
           <h1>Clicklife</h1>
-          <div class="desc">واجهة مبسطة — تصميم متناسق مع الخلفية</div>
+          <div class="desc">واجهة مبسطة — تباين محسّن مع الخلفية</div>
         </div>
       </div>
 
@@ -129,8 +128,8 @@
     <section class="hero" style="margin-top:18px">
       <div class="hero-top">
         <div class="hero-text">
-          <h2>دفتر العملاء - بسيط وواضح</h2>
-          <p>صممته لتناسب الخلفية: ألوان داكنة ونقاط تركيز ذهبية — واجهة أقل ازدحاماً.</p>
+          <h2>دفتر العملاء — واضح ومقروء</h2>
+          <p>تم تعديل الألوان والخلفيات لقراءة سهلة على صورتك. القوائم الآن بخلفيات داكنة شفافة ونص أبيض.</p>
         </div>
 
         <div class="big-actions" aria-hidden="false">
@@ -145,17 +144,17 @@
 
       <div class="panel" style="margin-top:6px">
         <div style="display:flex;align-items:center;justify-content:space-between">
-          <div class="muted">العملاء: <span id="countCustomers">0</span></div>
-          <div class="muted">الأرقام: <span id="countPhones">0</span></div>
+          <div class="meta">العملاء: <span id="countCustomers">0</span></div>
+          <div class="meta">الأرقام: <span id="countPhones">0</span></div>
         </div>
 
         <div id="list" class="list" aria-live="polite">
-          <div class="muted" style="padding:14px">لا توجد بيانات — استورد ملف أو أضف عميل جديد</div>
+          <div class="meta" style="padding:14px">لا توجد بيانات — استورد ملف أو أضف عميل جديد</div>
         </div>
       </div>
     </section>
 
-    <div class="note">تمت إزالة اللوحة الجانبية كما طلبت — الآن الواجهة أبسط ومركزة على المحتوى.</div>
+    <div class="note">الواجهة الآن أبسط وأكثر وضوحاً مع اختفاء تفاصيل الـid التي طلبت إزالتها.</div>
   </div>
 
   <div id="modalRoot"></div>
@@ -164,7 +163,7 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <script>
-    // تبسيط JS ليتوافق مع حذف اللوحة الجانبية
+    // simplified JS with id removed from UI and improved contrast
     const LS_KEY = 'clicklife_simple_v1';
     let state = { customers: [] };
 
@@ -181,7 +180,6 @@
       const phones = state.customers.reduce((s,c)=>s + (c.phones?.length||0),0);
       document.getElementById('countCustomers').textContent = customers;
       document.getElementById('countPhones').textContent = phones;
-      // phoneSummary element removed; do not reference it
     }
 
     function makeAvatarText(name){
@@ -199,7 +197,7 @@
         items = items.filter(c => c.name_norm.includes(q));
       }
       if(items.length === 0){
-        listEl.innerHTML = '<div class="muted" style="padding:14px">لا توجد نتائج</div>';
+        listEl.innerHTML = '<div class="meta" style="padding:14px">لا توجد نتائج</div>';
         renderCounts();
         return;
       }
@@ -208,7 +206,7 @@
         const left = document.createElement('div'); left.className='left';
         const av = document.createElement('div'); av.className='avatar'; av.textContent = makeAvatarText(c.name);
         const txt = document.createElement('div');
-        txt.innerHTML = `<div class="name">${escapeHtml(c.name)}</div><div class="meta">${(c.phones?.length||0)} أرقام · id: ${c.id}</div>`;
+        txt.innerHTML = `<div class="name">${escapeHtml(c.name)}</div><div class="meta">${(c.phones?.length||0)} أرقام</div>`;
         left.appendChild(av); left.appendChild(txt);
         row.appendChild(left);
 
@@ -270,17 +268,17 @@
       const backdrop = document.createElement('div'); backdrop.className='modalBackdrop';
       const modal = document.createElement('div'); modal.className='modal';
       modal.innerHTML = `<div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
-        <div style="width:60px;height:60px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#f97316);display:flex;align-items:center;justify-content:center;font-weight:800;color:#071226">${makeAvatarText(c.name)}</div>
-        <div><div style="font-weight:800">${escapeHtml(c.name)}</div><div class="muted" style="font-size:13px">id: ${c.id}</div></div>
+        <div style="width:60px;height:60px;border-radius:10px;background:linear-gradient(135deg,#ffb84d,#c56a00);display:flex;align-items:center;justify-content:center;font-weight:800;color:#071226">${makeAvatarText(c.name)}</div>
+        <div><div style="font-weight:800">${escapeHtml(c.name)}</div></div>
       </div>`;
 
       const phonesList = document.createElement('div');
       if((c.phones||[]).length === 0){
-        phonesList.innerHTML = '<div class="muted">لا توجد أرقام</div>';
+        phonesList.innerHTML = '<div class="meta">لا توجد أرقام</div>';
       } else {
         c.phones.forEach(ph=>{
           const r = document.createElement('div'); r.style.display='flex'; r.style.justifyContent='space-between'; r.style.alignItems='center'; r.style.padding='8px 0';
-          r.innerHTML = `<div><strong>${escapeHtml(ph.phone)}</strong><div class="muted" style="font-size:12px">id: ${ph.id}</div></div>`;
+          r.innerHTML = `<div><strong>${escapeHtml(ph.phone)}</strong></div>`;
           const group = document.createElement('div');
           const copyBtn = document.createElement('button'); copyBtn.className='btn secondary'; copyBtn.textContent='نسخ';
           copyBtn.addEventListener('click', ()=> { navigator.clipboard?.writeText(ph.phone); alert('تم النسخ: ' + ph.phone); });
@@ -299,7 +297,7 @@
       modal.appendChild(phonesList);
 
       const addWrap = document.createElement('div'); addWrap.style.marginTop='12px';
-      addWrap.innerHTML = `<label>أضف رقم جديد</label><input id="newPhone" placeholder="مثال: 01012345678"/>`;
+      addWrap.innerHTML = `<label style="color:var(--muted)">أضف رقم جديد</label><input id="newPhone" placeholder="مثال: 01012345678"/>`;
       const saveBtn = document.createElement('button'); saveBtn.className='btn'; saveBtn.textContent='حفظ';
       saveBtn.addEventListener('click', ()=>{
         const v = document.getElementById('newPhone').value.trim();
