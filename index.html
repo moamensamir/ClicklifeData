@@ -3,73 +3,97 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ClicklifeData - إدارة العملاء والأرقام</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>ClicklifeData — إدارة العملاء والأرقام</title>
+
+  <!-- Fonts: Cairo for Arabic text + a friendly "hand" font for headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#f7fbff;
-      --card:#ffffff;
-      --accent:#0b74d1;
-      --accent-2:#0ea56a;
-      --muted:#6b7280;
-      --danger:#e11d48;
+      /* warmer, more human palette */
+      --bg: #fbfdff;
+      --card: #ffffff;
+      --accent: #f59e0b;      /* warm amber */
+      --accent-2: #10b981;    /* pleasant green */
+      --muted: #6b7280;
+      --danger: #ef4444;
+      --glass: rgba(255,255,255,0.6);
+
+      --radius: 12px;
+      --soft-shadow: 0 8px 20px rgba(8,20,36,0.06);
       font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-    html,body{height:100%;margin:0;background:var(--bg);color:#0b1724}
-    .container{max-width:1100px;margin:24px auto;padding:18px}
-    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}
-    h1{font-size:20px;margin:0}
-    .controls{display:flex;gap:8px;align-items:center}
-    button, .btn{
-      background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:8px;font-weight:600;cursor:pointer;
-      box-shadow:0 2px 6px rgba(11,116,209,0.12)
+
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#fbfdff 0%, #f3f8fb 100%);color:#0b1724}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px}
+    h1{
+      font-family: 'Patrick Hand', 'Cairo', sans-serif;
+      font-size:22px;margin:0;color:#0b1724;letter-spacing:0.2px;
     }
-    .btn.secondary{background:#fff;color:var(--accent);border:1px solid rgba(11,116,209,0.12)}
-    .btn.ghost{background:transparent;color:var(--accent);border:1px dashed rgba(11,116,209,0.12)}
-    .layout{display:grid;grid-template-columns:1fr 420px;gap:18px}
-    @media(max-width:900px){.layout{grid-template-columns:1fr}}
-    .panel{background:var(--card);border-radius:10px;padding:16px;box-shadow:0 6px 18px rgba(12,30,50,0.04)}
+    .sub{color:var(--muted);font-size:13px;margin-top:6px}
+    .controls{display:flex;gap:10px;align-items:center}
+    button, .btn{
+      background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:14px;font-weight:700;cursor:pointer;
+      box-shadow:0 6px 18px rgba(245,158,11,0.12);transition:transform .12s ease,box-shadow .12s ease;
+    }
+    button:hover{transform:translateY(-2px)}
+    .btn.secondary{background:#fff;color:var(--accent);border:1px solid rgba(11,116,209,0.06);box-shadow:none}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px dashed rgba(11,116,209,0.06)}
+    .layout{display:grid;grid-template-columns:1fr 380px;gap:18px}
+    @media(max-width:920px){.layout{grid-template-columns:1fr}}
+    .panel{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--soft-shadow)}
     .searchBox{position:relative}
-    input[type="text"]{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #e6eef9;font-size:15px}
-    .autocomplete{position:absolute;left:0;right:0;top:110%;background:#fff;border:1px solid #e6eef9;border-radius:8px;max-height:220px;overflow:auto;z-index:30}
-    .item{padding:10px 12px;border-bottom:1px solid #f0f6fb;cursor:pointer}
+    input[type="text"]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e8f0ff;font-size:15px;background:linear-gradient(180deg,#fff,#fbfdff)}
+    input[type="text"]:focus{outline:none;box-shadow:0 6px 18px rgba(16,185,129,0.06);border-color:var(--accent-2)}
+    .autocomplete{position:absolute;left:0;right:0;top:110%;background:#fff;border:1px solid #e9f4ff;border-radius:10px;max-height:260px;overflow:auto;z-index:30}
+    .item{padding:10px 12px;border-bottom:1px solid #f7fbff;cursor:pointer;display:flex;gap:10px;align-items:center}
     .item:last-child{border-bottom:0}
-    .item:hover{background:#f4fbff}
+    .item:hover{background:linear-gradient(90deg,#fffef8,#fbfdff)}
     .customerCard h2{margin:0 0 8px 0;font-size:18px}
     .phones{display:flex;flex-direction:column;gap:8px}
-    .phoneRow{display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:8px;border:1px solid #eef6ff}
+    .phoneRow{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;border:1px solid #eef6ff;background:linear-gradient(180deg,#ffffff,#fbfdff)}
     .muted{color:var(--muted);font-size:13px}
     .actions{display:flex;gap:8px;margin-top:12px}
-    .small{padding:6px 8px;font-size:13px;border-radius:8px}
+    .small{padding:6px 8px;font-size:13px;border-radius:10px}
     .addFloat{display:flex;gap:8px;align-items:center}
     .footer-note{margin-top:12px;color:var(--muted);font-size:13px}
     .fileInput{display:none}
     .row{display:flex;gap:8px;align-items:center}
     /* modal */
-    .modalBackdrop{position:fixed;inset:0;background:rgba(6,18,30,0.4);display:flex;align-items:center;justify-content:center;z-index:60}
-    .modal{background:#fff;border-radius:10px;padding:18px;min-width:320px;max-width:520px}
-    label{display:block;font-weight:600;margin-bottom:6px}
-    input[type="tel"], input[type="text"], select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef9;margin-bottom:10px}
+    .modalBackdrop{position:fixed;inset:0;background:rgba(6,18,30,0.28);display:flex;align-items:center;justify-content:center;z-index:60}
+    .modal{background:var(--card);border-radius:14px;padding:18px;min-width:320px;max-width:540px;box-shadow:var(--soft-shadow)}
+    label{display:block;font-weight:700;margin-bottom:6px}
+    input[type="tel"], input[type="text"], select{width:100%;padding:10px;border-radius:10px;border:1px solid #eef7fb;margin-bottom:10px;background:#fff}
     .danger{background:var(--danger);color:#fff}
     .small-muted{font-size:13px;color:var(--muted)}
-    .empty{color:var(--muted);padding:18px;border-radius:8px;text-align:center}
+    .empty{color:var(--muted);padding:24px;border-radius:10px;text-align:center;background:linear-gradient(180deg,#ffffff,#fbfdff)}
     .topRow{display:flex;gap:8px;align-items:center}
-    .badge{background:#eef8ff;color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:600}
-    .btn.green{background:var(--accent-2)}
-    .link-like{background:transparent;border:0;color:var(--accent);cursor:pointer;font-weight:600}
+    .badge{background:#ecfdf5;color:var(--accent-2);padding:6px 10px;border-radius:999px;font-weight:700}
+    .btn.green{background:var(--accent-2);box-shadow:0 6px 18px rgba(16,185,129,0.08)}
+    .link-like{background:transparent;border:0;color:var(--accent);cursor:pointer;font-weight:700}
     /* responsive phone list */
-    .phones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+    .phones-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+    /* avatar */
+    .avatar{width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-right:8px;flex:0 0 42px}
+    /* toast */
+    .toast-wrap{position:fixed;right:20px;bottom:20px;z-index:120;display:flex;flex-direction:column;gap:8px}
+    .toast{background:#fff;padding:10px 14px;border-radius:10px;box-shadow:0 8px 26px rgba(10,20,30,0.12);border-left:6px solid var(--accent-2);min-width:200px}
+    .toast.warn{border-left-color:var(--accent)}
+    .toast.err{border-left-color:var(--danger)}
+    .meta-small{font-size:12px;color:var(--muted);margin-top:8px}
+    footer.site-note{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <div>
-        <h1>ClicklifeData — إدارة العملاء والأرقام</h1>
-        <div class="small-muted">رفع Excel، بحث أوتوكومبليت، إضافة رقم أو عميل جديد — يعمل بدون سيرفر</div>
+        <h1>ClicklifeData — دفترك البسيط لأرقام العملاء</h1>
+        <div class="sub">أداة محلية لحفظ أرقام العملاء، البحث بسرعة، واستيراد Excel — بدون سيرفر.</div>
       </div>
       <div class="controls">
-        <label class="btn" for="filePicker">Upload Excel</label>
+        <label class="btn" for="filePicker">رفع ملف Excel</label>
         <input id="filePicker" class="fileInput" type="file" accept=".xlsx,.xls" />
         <button id="btnAddCustomer" class="btn secondary">➕ إضافة عميل جديد</button>
         <button id="btnClear" class="btn ghost">مسح البيانات</button>
@@ -80,19 +104,22 @@
       <section class="panel" aria-label="Main panel">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
           <div style="flex:1" class="searchBox">
-            <input id="searchInput" type="text" placeholder="اكتب اسم العميل (مثال: ah) للبحث..." autocomplete="off" />
+            <input id="searchInput" type="text" placeholder="ابحث عن اسم العميل (مثال: أحمد)" autocomplete="off" />
             <div id="autocomplete" class="autocomplete" style="display:none"></div>
           </div>
           <div class="addFloat">
-            <button id="btnAddNumber" class="btn green small">➕ Add New Number</button>
+            <button id="btnAddNumber" class="btn green small">➕ إضافة رقم</button>
           </div>
         </div>
 
         <div id="mainArea">
-          <div class="empty">ابحث عن عميل أو ارفع ملف Excel لبدء الاستخدام</div>
+          <div class="empty">
+            <div style="font-size:16px;font-weight:700;margin-bottom:6px">مرحباً 👋</div>
+            ارفع ملف Excel أو أضف عميل جديد لبدء تجميع الأرقام. استخدم البحث للوصول السريع.
+          </div>
         </div>
 
-        <div class="footer-note">ملاحظة: البيانات تُخزن محلياً على المتصفح. استخدم زر "مسح البيانات" لحذفها.</div>
+        <div class="footer-note">ملاحظة: البيانات تُخزن محلياً على متصفحك. استخدم زر "مسح البيانات" لحذفها.</div>
       </section>
 
       <aside class="panel">
@@ -104,6 +131,7 @@
         <div style="margin-bottom:10px">
           <strong>عينة من البيانات:</strong>
           <div id="sampleList" style="margin-top:8px"></div>
+          <div id="lastAction" class="meta-small" style="margin-top:8px">لم تُجرَ أي تغييرات بعد</div>
         </div>
 
         <div style="margin-top:12px">
@@ -113,12 +141,15 @@
             <button id="btnImportSample" class="btn small">استيراد مثال</button>
           </div>
         </div>
+
+        <footer class="site-note">تم تصميم الواجهة لتكون بسيطة ومريحة للعين — إن احتجت أي تعديل أخبرني :)</footer>
       </aside>
     </main>
   </div>
 
-  <!-- modals -->
+  <!-- modals + toasts -->
   <div id="modalRoot"></div>
+  <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
 
   <!-- SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -139,9 +170,25 @@
       return (p||'').toString().replace(/[^0-9+]/g,'').replace(/^0+/,'0'); // احتفظ بالأرقام و+
     }
 
+    // small toast instead of many alert()
+    function showToast(msg, type='ok', timeout=3000){
+      const wrap = document.getElementById('toastWrap');
+      const t = document.createElement('div');
+      t.className = 'toast' + (type==='warn' ? ' warn' : type==='err' ? ' err' : '');
+      t.textContent = msg;
+      wrap.appendChild(t);
+      setTimeout(()=> {
+        t.style.opacity = '0';
+        t.style.transform = 'translateY(8px)';
+        setTimeout(()=> t.remove(), 300);
+      }, timeout);
+    }
+
     function saveState(){
       localStorage.setItem(LS_KEY, JSON.stringify(state));
       renderSummary();
+      const now = new Date();
+      document.getElementById('lastAction').textContent = 'آخر حفظ: ' + now.toLocaleString();
     }
     function loadState(){
       const raw = localStorage.getItem(LS_KEY);
@@ -157,6 +204,21 @@
     // id generator
     function uid(prefix='id'){
       return prefix+'_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,8);
+    }
+
+    // deterministic avatar color
+    const avatarColors = ['#ef4444','#f97316','#f59e0b','#eab308','#10b981','#06b6d4','#3b82f6','#8b5cf6'];
+    function colorFor(text){
+      let h=0; for(let i=0;i<text.length;i++) h = (h<<5)-h + text.charCodeAt(i);
+      return avatarColors[Math.abs(h) % avatarColors.length];
+    }
+    function makeAvatarElem(name){
+      const initials = (name||'?').split(' ').filter(Boolean).slice(0,2).map(s=>s[0].toUpperCase()).join('');
+      const div = document.createElement('div');
+      div.className = 'avatar';
+      div.style.background = colorFor(name);
+      div.textContent = initials || '?';
+      return div;
     }
 
     // إضافة/بحث
@@ -196,14 +258,14 @@
         try {
           workbook = XLSX.read(data, {type:'binary'});
         } catch(err) {
-          alert('فشل قراءة الملف. تأكد إنه Excel صحيح.');
+          showToast('فشل قراءة الملف؛ تأكد من أنه Excel صالح', 'err');
           return;
         }
         const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
         const rows = XLSX.utils.sheet_to_json(sheet, {header:1, defval:''});
         if(!rows || rows.length === 0) {
-          alert('الملف فارغ أو غير مفهوم.');
+          showToast('الملف فارغ أو غير مفهوم', 'warn');
           return;
         }
         // نحاول التعرّف على الأعمدة: لو الصف الأول يحتوي "name" أو "اسم" و "phone" أو "تليفون"
@@ -211,12 +273,10 @@
         let colName = 0, colPhone = 1;
         const firstRow = rows[0].map(c=>String(c).trim().toLowerCase());
         if(firstRow.some(x=>x.includes('name') || x.includes('اسم')) && firstRow.some(x=>x.includes('phone') || x.includes('تليفون') || x.includes('mobile'))){
-          // نستخدم كـ headers
           colName = firstRow.findIndex(x => x.includes('name') || x.includes('اسم'));
           colPhone = firstRow.findIndex(x => x.includes('phone') || x.includes('تليفون') || x.includes('mobile'));
           startIdx = 1;
         } else {
-          // افتراض: الاسم في العمود 0 والرقم في العمود 1
           colName = 0; colPhone = 1; startIdx = 0;
         }
 
@@ -232,13 +292,13 @@
           else skipped++;
         }
         saveState();
-        alert('تم الاستيراد: ' + added + ' أرقام مضافة. تخطيت: ' + skipped);
+        showToast('تم استيراد الملف — أُضيف: ' + added + ' رقم، تم تجاهل: ' + skipped, 'ok', 4000);
         renderMainEmpty(); // force render
       };
       reader.readAsBinaryString(file);
     }
 
-    // UI rendering
+    // UI rendering helpers
     function el(tag, attrs={}, children=[]){
       const e = document.createElement(tag);
       for(const k in attrs){
@@ -266,11 +326,21 @@
         sample.innerHTML = '<div class="small-muted">لا توجد بيانات بعد</div>';
       } else {
         sampleItems.forEach(c=>{
-          const div = el('div',{style:'padding:6px 0;border-bottom:1px dashed #f3f9ff'}, [
-            el('div', {html: '<strong>' + escapeHtml(c.name) + '</strong>'}),
-            el('div', {class:'small-muted', html: (c.phones.map(p=>escapeHtml(p.phone)).slice(0,3).join(' • ') || '<i>لا توجد أرقام</i>')})
-          ]);
-          sample.appendChild(div);
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.alignItems = 'center';
+          row.style.padding = '6px 0';
+          row.style.borderBottom = '1px dashed #f3f9ff';
+
+          const av = makeAvatarElem(c.name);
+          av.style.marginRight = '10px';
+          row.appendChild(av);
+
+          const txt = document.createElement('div');
+          txt.innerHTML = '<strong>' + escapeHtml(c.name) + '</strong><div class="small-muted">' + (c.phones.map(p=>escapeHtml(p.phone)).slice(0,3).join(' • ') || 'لا أرقام') + '</div>';
+          row.appendChild(txt);
+
+          sample.appendChild(row);
         });
       }
     }
@@ -284,9 +354,28 @@
       area.innerHTML = '';
       const q = document.getElementById('searchInput').value.trim();
       if(q){
-        // find first match and show it if unique exact
+        // show approximate matches if any
+        const qn = normName(q);
+        const matches = state.customers.filter(c => c.name_norm.includes(qn)).slice(0,8);
+        if(matches.length===1){
+          renderCustomerCard(matches[0]);
+          return;
+        } else if(matches.length>1){
+          const wrap = el('div',{class:'panel'},[]);
+          matches.forEach(c=>{
+            const it = el('div',{class:'item', on:{click:()=> renderCustomerCard(c)}}, [
+              makeAvatarElem(c.name),
+              el('div',{html: '<strong>' + escapeHtml(c.name) + '</strong><div class="small-muted">' + (c.phones.map(p=>escapeHtml(p.phone)).slice(0,3).join(' • ') || 'لا أرقام') + '</div>'})
+            ]);
+            wrap.appendChild(it);
+          });
+          area.appendChild(wrap);
+          return;
+        }
       }
-      const empty = el('div',{class:'empty'}, 'اختر عميل من الأوتوكومبليت أو اضف عميل جديد.');
+      const empty = el('div',{class:'empty'}, [
+        el('div',{html:'<div style="font-size:16px;font-weight:700;margin-bottom:6px">مرحباً 👋</div>ابحث عن عميل أو ارفع ملف Excel لبدء الاستخدام.'})
+      ]);
       area.appendChild(empty);
     }
 
@@ -294,12 +383,14 @@
       const area = document.getElementById('mainArea');
       area.innerHTML = '';
       const card = el('div',{class:'customerCard'});
-      const h = el('h2',{}, customer.name + ' ');
-      card.appendChild(h);
-      const meta = el('div',{class:'muted'}, 'المعرف: ' + customer.id);
-      card.appendChild(meta);
+      const top = document.createElement('div'); top.style.display='flex'; top.style.alignItems='center'; top.style.gap='12px';
+      top.appendChild(makeAvatarElem(customer.name));
+      const hwrap = document.createElement('div');
+      hwrap.innerHTML = '<h2 style="margin:0">' + escapeHtml(customer.name) + '</h2><div class="small-muted">المعرف: ' + customer.id + '</div>';
+      top.appendChild(hwrap);
+      card.appendChild(top);
 
-      const phonesWrap = el('div',{class:'phones-grid', style:'margin-top:12px'});
+      const phonesWrap = el('div',{class:'phones-grid', style:'margin-top:16px'});
       if((customer.phones||[]).length===0){
         phonesWrap.appendChild(el('div',{class:'empty'}, 'لا توجد أرقام لهذا العميل'));
       } else {
@@ -307,7 +398,7 @@
           const row = el('div',{class:'phoneRow'}, [
             el('div',{html: '<strong>' + escapeHtml(ph.phone) + '</strong><div class="small-muted">id: ' + ph.id + '</div>'}),
             el('div',{}, [
-              el('button',{class:'btn secondary small', on:{click:()=>{navigator.clipboard?.writeText(ph.phone); alert("تم نسخ الرقم: "+ph.phone)}}}, 'نسخ'),
+              el('button',{class:'btn secondary small', on:{click:()=>{ navigator.clipboard?.writeText(ph.phone).then(()=> showToast("تم نسخ: " + ph.phone)); }}}, 'نسخ'),
             ])
           ]);
           phonesWrap.appendChild(row);
@@ -316,8 +407,8 @@
       card.appendChild(phonesWrap);
 
       const actions = el('div',{class:'actions'}, [
-        el('button',{class:'btn green', on:{click:()=> openAddPhoneModal(customer.id)}}, '➕ Add New Number'),
-        el('button',{class:'btn secondary', on:{click:()=>{ if(confirm("هل تريد حذف هذا العميل وكل الأرقام؟")){ deleteCustomer(customer.id); } }}}, 'حذف العميل')
+        el('button',{class:'btn green', on:{click:()=> openAddPhoneModal(customer.id)}}, '➕ إضافة رقم'),
+        el('button',{class:'btn secondary', on:{click:()=>{ if(confirm("هل تريد حذف هذا العميل وكل الأرقام؟")){ deleteCustomer(customer.id); showToast("تم حذف العميل"); } }}}, 'حذف العميل')
       ]);
       card.appendChild(actions);
 
@@ -343,6 +434,7 @@
       box.innerHTML = '';
       matches.forEach(c=>{
         const it = el('div',{class:'item', on:{click:()=>{ document.getElementById('searchInput').value = c.name; box.style.display='none'; renderCustomerCard(c); }}}, [
+          makeAvatarElem(c.name),
           el('div',{html: '<strong>' + escapeHtml(c.name) + '</strong>'}),
           el('div',{class:'small-muted', html: (c.phones.map(p=>escapeHtml(p.phone)).slice(0,3).join(' • ') || 'لا أرقام')})
         ]);
@@ -377,15 +469,16 @@
           el('button',{class:'btn', on:{click:()=> {
             const name = document.getElementById('newCustomerName').value.trim();
             const phone = document.getElementById('newCustomerPhone').value.trim();
-            if(!name){ alert('اكتب اسم العميل'); return; }
+            if(!name){ showToast('اكتب اسم العميل', 'warn'); return; }
             const c = addOrGetCustomerByName(name);
             const addRes = addPhoneToCustomer(c.id, phone);
-            if(!addRes.ok && phone) { alert(addRes.msg); return; }
+            if(!addRes.ok && phone) { showToast(addRes.msg, 'warn'); return; }
             saveState();
             closeModal();
             renderCustomerCard(c);
-          }}}, 'Save'),
-          el('button',{class:'btn secondary', on:{click:()=>closeModal()}}, 'Cancel')
+            showToast('تمت الإضافة', 'ok');
+          }}}, 'حفظ'),
+          el('button',{class:'btn secondary', on:{click:()=>closeModal()}}, 'إلغاء')
         ])
       ]);
       openModal(content);
@@ -399,22 +492,23 @@
       else if(state.customers[0]) sel.value = state.customers[0].id;
 
       const content = el('div',{}, [
-        el('h3',{html:'Add New Number'}),
+        el('h3',{html:'إضافة رقم جديد'}),
         el('label',{}, 'اختر العميل'),
         sel,
-        el('label',{}, 'New Phone Number'),
+        el('label',{}, 'رقم التليفون'),
         el('input',{type:'tel', id:'inputNewPhone'}),
         el('div',{class:'row'}, [
           el('button',{class:'btn', on:{click:()=>{
             const cid = document.getElementById('selectCustomer').value;
             const phone = document.getElementById('inputNewPhone').value.trim();
             const res = addPhoneToCustomer(cid, phone);
-            if(!res.ok) { alert(res.msg); return; }
+            if(!res.ok) { showToast(res.msg, 'warn'); return; }
             closeModal();
             const cust = state.customers.find(c=>c.id===cid);
             renderCustomerCard(cust);
-          }}}, 'Done'),
-          el('button',{class:'btn secondary', on:{click:()=>closeModal()}}, 'Cancel')
+            showToast('تم إضافة الرقم', 'ok');
+          }}}, 'تم'),
+          el('button',{class:'btn secondary', on:{click:()=>closeModal()}}, 'إلغاء')
         ])
       ]);
       openModal(content);
@@ -430,11 +524,11 @@
 
     document.getElementById('btnAddCustomer').addEventListener('click', ()=> openAddCustomerModal());
     document.getElementById('btnAddNumber').addEventListener('click', ()=> {
-      if(state.customers.length===0){ alert('لا يوجد عملاء — أضف عميل أولاً أو استورد ملف Excel'); return; }
+      if(state.customers.length===0){ showToast('لا يوجد عملاء — أضف عميل أولاً أو استورد ملف Excel', 'warn'); return; }
       openAddPhoneModal();
     });
     document.getElementById('btnClear').addEventListener('click', ()=> {
-      if(confirm('هل تريد مسح كل البيانات المخزنة محلياً؟')){ localStorage.removeItem(LS_KEY); loadState(); renderSummary(); renderMainEmpty(); }
+      if(confirm('هل تريد مسح كل البيانات المخزنة محلياً؟')){ localStorage.removeItem(LS_KEY); loadState(); renderSummary(); renderMainEmpty(); showToast('تم مسح البيانات', 'ok'); }
     });
 
     document.getElementById('searchInput').addEventListener('input', ()=>{
@@ -453,23 +547,25 @@
       const a = document.createElement('a');
       a.href = url; a.download = 'clicklife_export.json'; a.click();
       URL.revokeObjectURL(url);
+      showToast('تم تنزيل ملف JSON', 'ok');
     });
 
     document.getElementById('btnImportSample').addEventListener('click', ()=>{
-      // small sample
+      // small sample (friendly)
       const sample = [
-        {name: 'Ahmed Ali', phone: '01012345678'},
-        {name: 'Ahmed Ali', phone: '01198765432'},
-        {name: 'Mohamed Samir', phone: '01234567890'},
-        {name: 'Aisha Ahmed', phone: '01055551234'}
+        {name: 'أحمد علي', phone: '01012345678'},
+        {name: 'أحمد علي', phone: '01198765432'},
+        {name: 'محمد سمير', phone: '01234567890'},
+        {name: 'عائشة أحمد', phone: '01055551234'}
       ];
       sample.forEach(row=>{
         const c = addOrGetCustomerByName(row.name);
         addPhoneToCustomer(c.id, row.phone);
       });
       saveState();
-      alert('تم استيراد مثال صغير');
+      showToast('تم استيراد مثال صغير', 'ok');
       renderSummary();
+      renderMainEmpty();
     });
 
     // init
