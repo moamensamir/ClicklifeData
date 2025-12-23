@@ -10,9 +10,9 @@
 
   <style>
     /*
-      تبسيط الواجهة + مطابقة ألوان الخلفية (داكنة + ذهبي)
-      - ضع صورة الخلفية (الصورة التي أرسلتها) في نفس المجلد باسم "bg.jpg"
-      - التصميم مبسط: هيرو كبير، بحث واضح، قائمة مبسطة، أزرار واضحة
+      تبسيط الواجهة + إزالة اللوحة الجانبية (الجزء الذي طلبت حذفه)
+      - الخلفية: ضع bg.jpg في نفس المجلد لو أردت
+      - التصميم مبسط: هيرو، بحث، قائمة مبسطة، أزرار واضحة
     */
     :root{
       --bg-dark: #071226;
@@ -27,23 +27,19 @@
 
     html,body{height:100%;margin:0;background:var(--bg-dark);color:#eef2f8}
     body{
-      /* background image: save the image you provided as bg.jpg next to this index.html */
       background-image: url('bg.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
 
-    /* dark overlay to ensure text contrast */
     .overlay {
       position:fixed; inset:0; background: linear-gradient(180deg, rgba(7,18,38,0.66), rgba(7,18,38,0.76));
       backdrop-filter: blur(2px);
       z-index:-1;
     }
 
-    .container{max-width:1100px;margin:28px auto;padding:18px;display:grid;grid-template-columns:1fr 340px;gap:18px}
-    @media(max-width:920px){ .container{grid-template-columns:1fr;padding:14px} .aside{order:2} }
-
+    .container{max-width:1100px;margin:28px auto;padding:18px;display:block}
     header{display:flex;gap:12px;align-items:center;justify-content:space-between}
     .brand{display:flex;gap:12px;align-items:center}
     .logo{
@@ -53,7 +49,6 @@
     h1{font-size:20px;margin:0}
     .desc{color:var(--muted);font-size:13px;margin-top:4px}
 
-    /* hero / controls */
     .hero{
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.4);
@@ -61,7 +56,7 @@
       min-height:260px;
     }
 
-    .hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
     .hero-text{max-width:62%}
     .hero-text h2{margin:0;font-size:22px}
     .hero-text p{margin:6px 0 0 0;color:var(--muted);font-size:14px}
@@ -84,7 +79,6 @@
     }
     input[type="search"]::placeholder{ color:#c7d2e0 }
 
-    /* list area simplified */
     .panel{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 30px rgba(2,6,23,0.4);border:1px solid rgba(255,255,255,0.02)}
     .list{margin-top:10px;display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto;padding-right:6px}
     .row{
@@ -97,24 +91,16 @@
     .name{font-weight:700}
     .meta{color:var(--muted);font-size:13px}
 
-    /* aside simplified */
-    .aside{display:flex;flex-direction:column;gap:12px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
-    .muted{color:var(--muted)}
-
-    /* footer note */
     .note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
 
-    /* modal basic */
     .modalBackdrop{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:1000}
     .modal{background:#071226;padding:18px;border-radius:12px;width:420px;border:1px solid rgba(255,255,255,0.03)}
     label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
     input, select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;margin-bottom:8px}
 
-    /* small responsive tweaks */
     @media(max-width:640px){
       .hero-text{max-width:100%}
-      .container{grid-template-columns:1fr; padding:12px}
+      .container{padding:12px}
       .hero{min-height:200px}
     }
   </style>
@@ -123,121 +109,79 @@
   <div class="overlay" aria-hidden="true"></div>
 
   <div class="container">
-    <!-- Main column -->
-    <div>
-      <header>
-        <div class="brand">
-          <div class="logo">CL</div>
-          <div>
-            <h1>Clicklife</h1>
-            <div class="desc">واجهة مبسطة — تصميم متناسق مع الخلفية</div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:8px;align-items:center">
-          <label for="file" class="btn secondary" title="استيراد Excel">استيراد Excel</label>
-          <input id="file" type="file" accept=".xlsx,.xls" style="display:none" />
-          <button id="btnAdd" class="btn">➕ إضافة عميل</button>
-          <button id="btnExport" class="btn ghost">تصدير</button>
-        </div>
-      </header>
-
-      <section class="hero">
-        <div class="hero-top">
-          <div class="hero-text">
-            <h2>دفتر العملاء - بسيط وواضح</h2>
-            <p>صممته لتناسب الخلفية التي أرسلتها: ألوان داكنة، نقاط تركيز ذهبية — واجهة أقل ازدحاماً.</p>
-          </div>
-
-          <div class="big-actions" aria-hidden="false">
-            <button id="btnImportSample" class="btn small">استيراد مثال</button>
-            <button id="btnClear" class="btn small" style="background:#ff6b6b;color:white">مسح</button>
-          </div>
-        </div>
-
-        <div class="search">
-          <input id="search" type="search" placeholder="اكتب اسم العميل... (مثال: أحمد)" />
-        </div>
-
-        <div class="panel" style="margin-top:6px">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div class="muted">العملاء: <span id="countCustomers">0</span></div>
-            <div class="muted">الأرقام: <span id="countPhones">0</span></div>
-          </div>
-
-          <div id="list" class="list" aria-live="polite">
-            <div class="muted" style="padding:14px">لا توجد بيانات — استورد ملف أو أضف عميل جديد</div>
-          </div>
-        </div>
-      </section>
-
-      <div class="note">البيانات تخزن محلياً في متصفحك. احفظ نسخة بصيغة JSON للاحتياط.</div>
-    </div>
-
-    <!-- Aside -->
-    <aside class="aside">
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-weight:700">نظرة سريعة</div>
-            <div class="muted" style="font-size:13px">مخزن محلي — بدون سيرفر</div>
-          </div>
-          <div style="text-align:center">
-            <div style="font-weight:800;font-size:18px;color:var(--accent)">CL</div>
-            <div class="muted" style="font-size:13px" id="phoneSummary">0 أرقام</div>
-          </div>
+    <header>
+      <div class="brand">
+        <div class="logo">CL</div>
+        <div>
+          <h1>Clicklife</h1>
+          <div class="desc">واجهة مبسطة — تصميم متناسق مع الخلفية</div>
         </div>
       </div>
 
-      <div class="card">
-        <div style="font-weight:700;margin-bottom:8px">استيراد سريع</div>
-        <div class="muted" style="font-size:13px">اسحب ملف Excel إلى المجلد أو اضغط زر "استيراد Excel".</div>
-        <div style="margin-top:8px;display:flex;gap:8px">
-          <label for="file" class="btn secondary" style="width:100%;text-align:center">رفع الملف</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <label for="file" class="btn secondary" title="استيراد Excel">استيراد Excel</label>
+        <input id="file" type="file" accept=".xlsx,.xls" style="display:none" />
+        <button id="btnAdd" class="btn">➕ إضافة عميل</button>
+        <button id="btnExport" class="btn ghost">تصدير</button>
+      </div>
+    </header>
+
+    <section class="hero" style="margin-top:18px">
+      <div class="hero-top">
+        <div class="hero-text">
+          <h2>دفتر العملاء - بسيط وواضح</h2>
+          <p>صممته لتناسب الخلفية: ألوان داكنة ونقاط تركيز ذهبية — واجهة أقل ازدحاماً.</p>
+        </div>
+
+        <div class="big-actions" aria-hidden="false">
+          <button id="btnImportSample" class="btn small">استيراد مثال</button>
+          <button id="btnClear" class="btn small" style="background:#ff6b6b;color:white">مسح</button>
         </div>
       </div>
 
-      <div class="card">
-        <div style="font-weight:700;margin-bottom:8px">أدوات</div>
-        <div style="display:flex;gap:8px">
-          <button id="btnExport2" class="btn secondary" style="width:100%">تصدير JSON</button>
-        </div>
-        <div style="margin-top:8px" class="muted">اختصارات: / للبحث · N لإضافة</div>
+      <div class="search">
+        <input id="search" type="search" placeholder="اكتب اسم العميل... (مثال: أحمد)" />
       </div>
-    </aside>
+
+      <div class="panel" style="margin-top:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="muted">العملاء: <span id="countCustomers">0</span></div>
+          <div class="muted">الأرقام: <span id="countPhones">0</span></div>
+        </div>
+
+        <div id="list" class="list" aria-live="polite">
+          <div class="muted" style="padding:14px">لا توجد بيانات — استورد ملف أو أضف عميل جديد</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="note">تمت إزالة اللوحة الجانبية كما طلبت — الآن الواجهة أبسط ومركزة على المحتوى.</div>
   </div>
 
-  <!-- modal placeholder -->
   <div id="modalRoot"></div>
 
   <!-- SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <script>
-    // -------------------------
-    // مبسط: منطق حفظ/استرجاع/عرض
-    // -------------------------
+    // تبسيط JS ليتوافق مع حذف اللوحة الجانبية
     const LS_KEY = 'clicklife_simple_v1';
-    let state = { customers: [] }; // كل عميل: {id,name,name_norm,phones: [{id,phone,phone_norm}]}
-    const PAGE_SIZE = 9999; // لا نحتاج صفحات في النسخة المبسطة
+    let state = { customers: [] };
 
-    // helpers
     function uid(prefix='id'){ return prefix + '_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,8); }
     function normName(s){ return (s||'').toString().normalize('NFKD').replace(/[\u064B-\u0652]/g,'').trim().toLowerCase().replace(/\s+/g,' '); }
     function normPhone(p){ return (p||'').toString().replace(/[^0-9+]/g,'').replace(/^0+/,'0'); }
     function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-    // persistence
     function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); renderCounts(); }
     function loadState(){ const raw = localStorage.getItem(LS_KEY); if(raw){ try{ state = JSON.parse(raw); }catch(e){ state = {customers:[]} } } else state = {customers:[]}; }
 
-    // UI rendering
     function renderCounts(){
       const customers = state.customers.length;
       const phones = state.customers.reduce((s,c)=>s + (c.phones?.length||0),0);
       document.getElementById('countCustomers').textContent = customers;
       document.getElementById('countPhones').textContent = phones;
-      document.getElementById('phoneSummary').textContent = phones + ' أرقام';
+      // phoneSummary element removed; do not reference it
     }
 
     function makeAvatarText(name){
@@ -268,13 +212,9 @@
         left.appendChild(av); left.appendChild(txt);
         row.appendChild(left);
 
-        const actions = document.createElement('div');
-        actions.style.display = 'flex';
-        actions.style.gap = '8px';
-
+        const actions = document.createElement('div'); actions.style.display = 'flex'; actions.style.gap = '8px';
         const btnView = document.createElement('button'); btnView.className='btn secondary'; btnView.textContent='عرض';
         btnView.addEventListener('click', ()=> openDetail(c.id));
-
         const btnAdd = document.createElement('button'); btnAdd.className='btn ghost'; btnAdd.textContent='رقم';
         btnAdd.addEventListener('click', ()=> {
           const ph = prompt('أدخل الرقم الجديد للعميل ' + c.name);
@@ -282,7 +222,6 @@
           const res = addPhoneToCustomer(c.id, ph.trim());
           if(!res.ok) alert(res.msg); else { saveState(); renderList(document.getElementById('search').value); }
         });
-
         actions.appendChild(btnAdd); actions.appendChild(btnView);
         row.appendChild(actions);
 
@@ -291,7 +230,6 @@
       renderCounts();
     }
 
-    // CRUD
     function findCustomerByNameNorm(nn){ return state.customers.find(c => c.name_norm === nn); }
     function addOrGetCustomerByName(name){
       const nn = normName(name||'');
@@ -324,7 +262,6 @@
       renderCounts();
     }
 
-    // simple modal detail
     function openDetail(customerId){
       const c = state.customers.find(x=>x.id===customerId);
       if(!c) return;
@@ -337,7 +274,6 @@
         <div><div style="font-weight:800">${escapeHtml(c.name)}</div><div class="muted" style="font-size:13px">id: ${c.id}</div></div>
       </div>`;
 
-      // phones
       const phonesList = document.createElement('div');
       if((c.phones||[]).length === 0){
         phonesList.innerHTML = '<div class="muted">لا توجد أرقام</div>';
@@ -353,7 +289,7 @@
             if(!confirm('حذف الرقم؟')) return;
             c.phones = c.phones.filter(x=>x.id!==ph.id);
             saveState();
-            openDetail(customerId); // refresh modal
+            openDetail(customerId);
           });
           group.appendChild(copyBtn); group.appendChild(delBtn);
           r.appendChild(group);
@@ -362,7 +298,6 @@
       }
       modal.appendChild(phonesList);
 
-      // add number inline
       const addWrap = document.createElement('div'); addWrap.style.marginTop='12px';
       addWrap.innerHTML = `<label>أضف رقم جديد</label><input id="newPhone" placeholder="مثال: 01012345678"/>`;
       const saveBtn = document.createElement('button'); saveBtn.className='btn'; saveBtn.textContent='حفظ';
@@ -385,7 +320,6 @@
       root.appendChild(backdrop);
     }
 
-    // parse Excel (simple)
     function parseExcelFile(file){
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -400,7 +334,6 @@
         const rows = XLSX.utils.sheet_to_json(sheet, {header:1, defval:''});
         if(!rows || rows.length===0){ alert('الملف فارغ'); return; }
 
-        // detect columns
         let start = 0, colName = 0, colPhone = 1;
         const first = rows[0].map(c => String(c).trim().toLowerCase());
         if(first.some(x=>x.includes('name')||x.includes('اسم')) && first.some(x=>x.includes('phone')||x.includes('تليفون')||x.includes('mobile'))){
@@ -426,16 +359,13 @@
       reader.readAsBinaryString(file);
     }
 
-    // export JSON
     function exportJSON(){
       const data = JSON.stringify(state, null, 2);
       const blob = new Blob([data], {type:'application/json'});
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'clicklife_export.json'; a.click();
-      URL.revokeObjectURL(url);
+      const a = document.createElement('a'); a.href = url; a.download = 'clicklife_export.json'; a.click(); URL.revokeObjectURL(url);
     }
 
-    // sample import
     function importSample(){
       const sample = [
         {name: 'أحمد علي', phone: '01012345678'},
@@ -448,7 +378,6 @@
       alert('تم استيراد مثال صغير');
     }
 
-    // events
     document.getElementById('btnAdd').addEventListener('click', ()=>{
       const name = prompt('اسم العميل');
       if(!name) return;
@@ -462,17 +391,12 @@
     document.getElementById('btnClear').addEventListener('click', deleteAll);
     document.getElementById('btnImportSample').addEventListener('click', importSample);
     document.getElementById('btnExport').addEventListener('click', exportJSON);
-    document.getElementById('btnExport2').addEventListener('click', exportJSON);
 
-    // file input
     const fileInput = document.getElementById('file');
     fileInput.addEventListener('change', (e)=> {
-      const f = e.target.files[0];
-      if(f) parseExcelFile(f);
-      e.target.value = '';
+      const f = e.target.files[0]; if(f) parseExcelFile(f); e.target.value='';
     });
 
-    // drag/drop onto body: allow dropping the file onto the page (user convenience)
     document.addEventListener('dragover', (e)=> e.preventDefault());
     document.addEventListener('drop', (e)=> {
       e.preventDefault();
@@ -481,18 +405,13 @@
       }
     });
 
-    // search
-    document.getElementById('search').addEventListener('input', (e)=> {
-      renderList(e.target.value);
-    });
+    document.getElementById('search').addEventListener('input', (e)=> { renderList(e.target.value); });
 
-    // keyboard shortcuts
     document.addEventListener('keydown', (e)=>{
       if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){ e.preventDefault(); document.getElementById('search').focus(); }
       if((e.key === 'N' || e.key === 'n') && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){ e.preventDefault(); document.getElementById('btnAdd').click(); }
     });
 
-    // init
     loadState();
     renderList();
     renderCounts();
